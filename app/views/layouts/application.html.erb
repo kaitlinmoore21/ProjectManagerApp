@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project Manager</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-white text-black">
+    <!-- 🔹 Header -->
+    <header class="bg-blue-600 text-white shadow-md">
+      <div class="container mx-auto flex justify-between items-center py-4 px-6">
+        <h1 class="text-2xl font-semibold">Manage Your Projects</h1>
+
+        <!-- 🔹 Navigation Bar -->
+        <nav class="space-x-4">
+          <%= link_to "Home", root_path, class: "hover:underline" %>
+          <%= link_to "Projects", projects_path, class: "hover:underline" %>
+
+          <% if user_signed_in? %>
+            <%# Optional Tasks link if route exists %>
+            <% if Rails.application.routes.url_helpers.respond_to?(:tasks_path) %>
+              <%= link_to "Tasks", tasks_path, class: "hover:underline" %>
+            <% end %>
+
+            <%# 🔹 Logout link: DELETE request handled by Turbo %>
+            <%= link_to "Logout", destroy_user_session_path,
+                        method: :delete,
+                        data: { turbo_method: :delete, confirm: "Are you sure you want to log out?" },
+                        class: "hover:underline" %>
+          <% else %>
+            <%= link_to "Login", new_user_session_path, class: "hover:underline" %>
+            <%= link_to "Sign Up", new_user_registration_path, class: "hover:underline" %>
+          <% end %>
+        </nav>
+      </div>
+
+      <!-- 🔹 Optional Search Bar (only on Projects controller) -->
+      <% if controller_name == "projects" %>
+        <div class="bg-blue-100 py-3">
+          <div class="container mx-auto px-6">
+            <%= form_with url: projects_path, method: :get, local: true, class: "flex" do |form| %>
+              <%= form.text_field :search, value: params[:search], placeholder: "Search your projects...", class: "flex-grow p-2 rounded-l-md border border-gray-300" %>
+              <%= form.submit "Search", class: "bg-blue-600 text-white px-4 rounded-r-md hover:bg-blue-700" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </header>
+
+    <!-- 🔹 Page Content -->
+    <main class="container mx-auto px-6 py-6">
+      <% if notice %>
+        <div class="bg-green-100 text-green-800 p-3 rounded mb-4"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="bg-red-100 text-red-800 p-3 rounded mb-4"><%= alert %></div>
+      <% end %>
+
+      <%= yield %>
+
+      <!-- 🔹 Optional Back to Login button if not signed in -->
+      <% unless user_signed_in? %>
+        <div class="mt-6">
+          <%= link_to "Back to Login", new_user_session_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+        </div>
+      <% end %>
+    </main>
+
+    <footer class="bg-gray-100 text-center py-4 mt-6 text-sm text-gray-600">
+      &copy; <%= Time.current.year %> Project Manager App. All rights reserved.
+    </footer>
+  </body>
+</html>

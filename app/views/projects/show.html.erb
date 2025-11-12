@@ -1,0 +1,49 @@
+<div class="container mx-auto max-w-4xl my-10 px-4">
+  <p class="notice"><%= notice %></p>
+
+  <div class="flex items-center mb-8">
+    <%= link_to 'Back', projects_path, class: "back-button bg-gray-600 text-white px-3 py-2 rounded shadow-sm hover:bg-gray-700 transition mr-4" %>
+    <h1 class="text-3xl font-bold flex-grow"><%= @project.name %></h1>
+    <div class="ml-auto flex gap-2">
+      <%= link_to 'Edit', edit_project_path(@project), class: "btn-edit text-sm px-3 py-1" %>
+      <%= button_to 'Destroy', @project, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-danger text-sm px-3 py-1" %>
+    </div>
+  </div>
+
+  <p class="text-gray-600 mb-8"><%= @project.description %></p>
+
+  <div class="mb-10">
+    <h2 class="text-xl font-semibold mb-3">Add task</h2>
+    <%= form_with(model: [@project, @project.tasks.build]) do |form| %>
+      <div class="flex gap-2">
+        <%= form.text_field :name, placeholder: "Enter task name...", class: "form-input flex-grow" %>
+        <%= form.submit "Create Task", class: "btn-primary px-4 py-2" %>
+      </div>
+    <% end %>
+  </div>
+  
+  <h2 class="text-2xl font-semibold mb-4">Tasks</h2>
+
+  <% if @project.tasks.any? %>
+    <div class="space-y-4">
+      <% @project.tasks.each do |task| %>
+        <% next if task.id.nil? %> <div class="task-item p-4 bg-white border border-gray-200 rounded-lg shadow-sm flex justify-between items-start">
+          <div class="flex-grow pr-4">
+            <span class="status-tag <%= task.status_class %> font-medium text-xs mr-2">
+              <%= task.status %>
+            </span>
+            <h3 class="text-lg font-semibold mt-1"><%= task.name %></h3>
+            <p class="text-sm text-gray-500 mt-1"><%= task.description %></p>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            <%= link_to 'Edit', edit_task_path(task), class: "btn-edit text-xs px-3 py-1 ml-2" %>
+            <%= button_to 'Destroy', task_path(task), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn-danger text-xs px-3 py-1" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-600">No tasks yet for this project. Use the form above to add one!</p>
+  <% end %>
+
+</div>

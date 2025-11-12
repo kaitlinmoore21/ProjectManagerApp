@@ -1,0 +1,71 @@
+<div class="container" style="max-width: 500px; margin: 40px auto;">
+  <p class="notice" style="color: green; text-align: center;"><%= notice %></p>
+  <p class="alert" style="color: red; text-align: center;"><%= alert %></p>
+
+  <div class="card" style="padding: 30px; border: 1px solid #ddd; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #fff;">
+    <h1 style="text-align: center; margin-bottom: 20px; font-size: 2rem;"><%= content_for?(:title) ? yield(:title) : "Account" %></h1>
+    <%= yield %>
+    <div style="margin-top: 20px; text-align: center;">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+
+<style>
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+
+  label {
+    font-weight: 600;
+    display: block;
+  }
+
+  .actions input[type="submit"],
+  .actions button,
+  .btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+  }
+
+  .actions input[type="submit"]:hover,
+  .actions button:hover,
+  .btn:hover {
+    background-color: #1e40af;
+  }
+
+  .btn-secondary {
+    background-color: #6b7280;
+  }
+
+  .btn-secondary:hover {
+    background-color: #4b5563;
+  }
+
+  .card em {
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+
+  .card i {
+    font-style: italic;
+    color: #6b7280;
+  }
+</style>
