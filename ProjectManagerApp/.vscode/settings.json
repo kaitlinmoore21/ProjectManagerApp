@@ -1,0 +1,8 @@
+{
+    "git.enabled": true,
+    "git.allowForcePush": true,
+    "git.allowNoVerifyCommit": true,
+    "git.showPushSuccessNotification": true,
+    "git.enableSmartCommit": true,
+    "git.enableCommitSigning": true
+}

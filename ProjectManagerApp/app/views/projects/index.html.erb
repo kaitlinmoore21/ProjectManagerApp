@@ -1,0 +1,44 @@
+<div class="container mx-auto max-w-4xl my-10 px-4">
+  <p class="notice"><%= notice %></p>
+
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold">Projects</h1>
+    <%= link_to 'New Project', new_project_path, class: "bg-blue-600 text-white px-4 py-2 rounded shadow-md hover:bg-blue-700 transition" %>
+  </div>
+
+  <% if @projects.any? %>
+    <div class="space-y-4">
+      <% @projects.each do |project| %>
+        <% next if project.id.nil? %>
+
+        <div class="project-card p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition duration-200">
+          
+          <% # NOTE: This uses the helper methods from app/models/project.rb %>
+          <div class="mb-2">
+            <span class="status-tag <%= project.status_class %> font-medium text-xs mr-2">
+              <%= project.status_text %>
+            </span>
+            <span class="text-sm text-gray-500">
+              <%= project.completion_percentage %>% complete (<%= project.completed_tasks_count %>/<%= project.tasks.count %> tasks)
+            </span>
+          </div>
+
+          <h2 class="text-xl font-bold mb-1">
+            <%= link_to project.name, project_path(project), class: "hover:text-blue-600" %>
+          </h2>
+          <p class="text-gray-600">
+            <%= project.description %>
+          </p>
+
+          <div class="mt-4 flex gap-3">
+            <%= link_to 'Show', project_path(project), class: "text-sm text-blue-600 hover:text-blue-800" %>
+            <%= link_to 'Edit', edit_project_path(project), class: "text-sm text-yellow-600 hover:text-yellow-800" %>
+            <%= button_to 'Destroy', project_path(project), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-sm text-red-600 hover:text-red-800 bg-transparent p-0" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-600 mt-4 text-center">You have no projects yet. Click "New Project" to create one!</p>
+  <% end %>
+</div>

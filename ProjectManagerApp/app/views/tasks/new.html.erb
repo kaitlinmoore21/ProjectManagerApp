@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>New Task for "<%= @project.name %>"</h1>
+
+  <% if @task.errors.any? %>
+    <div class="bg-red-100 text-red-800 p-3 mb-4 rounded">
+      <h4><%= pluralize(@task.errors.count, "error") %> prevented this task from saving:</h4>
+      <ul>
+        <% @task.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: [@project, @task], local: true do |form| %>
+    <div class="mb-4">
+      <%= form.label :name %>
+      <%= form.text_field :name, class: "border p-2 w-full" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :description %>
+      <%= form.text_area :description, rows: 5, class: "border p-2 w-full" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :status %>
+      <%= form.select :status, options_for_select(["not-started", "in-progress", "complete"], @task.status), class: "border p-2 w-full" %>
+    </div>
+
+    <div class="flex gap-2">
+      <%= form.submit "Create Task", class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+      <%= link_to "Back", project_tasks_path(@project), class: "bg-gray-300 px-4 py-2 rounded" %>
+    </div>
+  <% end %>
+</div>
