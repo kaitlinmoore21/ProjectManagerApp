@@ -1,26 +1,41 @@
 class Api::V1::ProjectsController < Api::V1::ApplicationController
-  
   # Runs set_project for single-project actions (show, update, destroy)
-  before_action :set_project, only: %i[ show update destroy ]
+  before_action :set_project, only: %i[show update destroy]
 
-  # GET /api/v1/projects?status=in_progress
+  # GET /api/v1/projects?status=in_progress&page=2&per_page=10
   def index
     # 1. Start with all projects belonging to the currently authenticated user
-    @projects = current_user.projects.all.order(due_date: :asc)
-    
+    projects = current_user.projects.all.order(due_date: :asc)
+
     # 2. --- Filtering Logic ---
     if params[:status].present?
       # Looks up the integer value from the STATUSES constant in the Project model
       status_value = Project::STATUSES[params[:status].downcase.to_sym]
-      
+
       # Only filter if the status name is valid (checks for 0 as well)
       if status_value.present? || status_value == 0
-        @projects = @projects.where(status: status_value)
+        projects = projects.where(status: status_value)
       end
     end
 
-    # The response will automatically use the ProjectSerializer
-    render json: @projects, status: :ok 
+    # 3. --- Pagination ---
+    page = params[:page].to_i > 0 ? params[:page].to_i : 1
+    per_page = params[:per_page].to_i > 0 ? params[:per_page].to_i : 10
+    total_count = projects.count
+    total_pages = (total_count / per_page.to_f).ceil
+
+    projects = projects.offset((page - 1) * per_page).limit(per_page)
+
+    # 4. Render JSON with projects and pagination metadata
+    render json: {
+      projects: ActiveModelSerializers::SerializableResource.new(projects),
+      meta: {
+        total_count: total_count,
+        total_pages: total_pages,
+        current_page: page,
+        per_page: per_page
+      }
+    }, status: :ok
   end
 
   # GET /api/v1/projects/1
@@ -55,10 +70,11 @@ class Api::V1::ProjectsController < Api::V1::ApplicationController
   def destroy
     # @project is secured via set_project
     @project.destroy
-    head :no_content 
+    head :no_content
   end
 
   private
+
     def set_project
       # Authorization check: Finds the project only if it belongs to the current user
       @project = current_user.projects.find(params[:id])

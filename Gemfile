@@ -53,6 +53,8 @@ group :development, :test do
 # For Token-Based Authentication (JWT)
 gem "jwt", '~> 2.8' 
  
+# For efficient and performant API pagination (A meaningful library)
+gem 'pagy'
 
 # For JSON formatting
 gem "active_model_serializers", '~> 0.10.0'

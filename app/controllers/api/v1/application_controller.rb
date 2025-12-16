@@ -1,4 +1,6 @@
 class Api::V1::ApplicationController < ::ApplicationController
+  # Include Pagy functionality for use in all API controllers (like TasksController)
+  # include Pagy::Backend
   attr_reader :current_user 
 
   before_action :authenticate_request 
