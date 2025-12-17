@@ -1,9 +1,9 @@
-// src/services/component/ProjectList.jsx (Final Update)
+
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { fetchProjects, logoutUser, deleteProject } from '../api.js'; 
 import ProjectForm from './ProjectForm'; 
-import TaskList from './TaskList'; // <<< NEW: Import TaskList
+import TaskList from './TaskList'; 
 
 const ProjectList = ({ onLogout }) => {
   const [projects, setProjects] = useState([]);
@@ -12,10 +12,10 @@ const ProjectList = ({ onLogout }) => {
   const [error, setError] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false); 
   const [editingProject, setEditingProject] = useState(null); 
-  const [expandedProjectId, setExpandedProjectId] = useState(null); // <<< NEW STATE for Task visibility
+  const [expandedProjectId, setExpandedProjectId] = useState(null); 
 
   const loadProjects = useCallback(async (pageNumber) => {
-    // ... (loadProjects function content is unchanged)
+ 
     setLoading(true);
     setError(null);
     try {
@@ -70,7 +70,6 @@ const ProjectList = ({ onLogout }) => {
     }
   }
 
-  // <<< NEW HANDLER for expanding/collapsing tasks
   const toggleTasks = (projectId) => {
     setExpandedProjectId(currentId => (currentId === projectId ? null : projectId));
   };
@@ -113,7 +112,7 @@ const ProjectList = ({ onLogout }) => {
               </div>
               <div style={{ marginTop: '5px' }}>
                 <button 
-                  onClick={() => toggleTasks(project.id)} // <<< NEW: Toggle button
+                  onClick={() => toggleTasks(project.id)} 
                   style={{ marginRight: '10px', backgroundColor: '#f39c12', color: 'white', border: 'none' }}
                 >
                   {expandedProjectId === project.id ? 'Hide Tasks' : 'View Tasks'}
