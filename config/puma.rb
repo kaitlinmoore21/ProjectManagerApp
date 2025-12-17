@@ -1,5 +1,3 @@
-# Puma configuration for Rails API backend
-
 # Number of threads per worker
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 3 }
 threads threads_count, threads_count
@@ -17,5 +15,5 @@ plugin :tmp_restart
 pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
 
 # Optional: Uncomment if using multiple workers for concurrency
-# workers ENV.fetch("WEB_CONCURRENCY") { 1 }
-# preload_app!
+ workers ENV.fetch("WEB_CONCURRENCY") { 1 }
+  preload_app!
