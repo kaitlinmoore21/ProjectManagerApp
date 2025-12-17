@@ -1,24 +1,29 @@
-# README
+# What You Need
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Make sure you have these installed:
+Ruby: (We used 3.1.2+)
 
-Things you may want to cover:
+Rails: (7.0+)
 
-* Ruby version
+PostgreSQL: (The database I went with)
 
-* System dependencies
+# Directory :
+ cd /mnt/c/ProjectManagerApplication/project_manager_backend
 
-* Configuration
+# install dependencies :
+bundle install
 
-* Database creation
+# Database : 
+rails db:create
 
-* Database initialization
+rails db:migrate
 
-* How to run the test suite
+# Load the Starter Data : This seeds the first user so you can actually log in.
+rails db:seed
 
-* Services (job queues, cache servers, search engines, etc.)
+# Running the API : You must run API before Frontend
+rails s
 
-* Deployment instructions
-
-* ...
+# Login Credentials :
+USERNAME: test@project.com
+PASSWORD: password
