@@ -18,8 +18,8 @@ production:
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+# REQUIRED FIX FOR SolidCable/Action Cable IN PRODUCTION
+# It uses a top-level connection named 'cable' by default.
 cable:
-  url: <%= ENV['DATABASE_URL'] %> 
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
