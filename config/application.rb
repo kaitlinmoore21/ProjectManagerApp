@@ -1,3 +1,8 @@
+    # --- Quick patch to define missing base classes ---
+    QueueBase ||= Class.new
+    CacheBase ||= Class.new
+    CableBase ||= Class.new
+
 require_relative "boot"
 
 require "rails/all"
