@@ -1,4 +1,3 @@
-# PostgreSQL configuration for Rails
 default: &default
   adapter: postgresql
   encoding: unicode
@@ -13,11 +12,9 @@ test:
   database: project_manager_backend_test
 
 production:
-  <<: *default
+  # Render provides the full database connection string via the DATABASE_URL environment variable.
+  url: <%= ENV['DATABASE_URL'] %> 
   adapter: postgresql
   encoding: unicode
-  database: <%= ENV['DB_NAME'] %>
-  username: <%= ENV['DB_USER'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST'] %>
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
