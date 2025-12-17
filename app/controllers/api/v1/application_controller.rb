@@ -1,6 +1,4 @@
 class Api::V1::ApplicationController < ::ApplicationController
-  # Include Pagy functionality for use in all API controllers (like TasksController)
-  # include Pagy::Backend
   attr_reader :current_user 
 
   before_action :authenticate_request 
@@ -11,7 +9,7 @@ class Api::V1::ApplicationController < ::ApplicationController
     header = request.headers['Authorization']
     header = header.split(' ').last if header
     
-    # NOTE: You must ensure JsonWebToken class is available (in lib/json_web_token.rb)
+    
     @decoded = JsonWebToken.decode(header)
     
     if @decoded && @decoded[:user_id]

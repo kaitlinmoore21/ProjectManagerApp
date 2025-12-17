@@ -1,5 +1,3 @@
-# app/models/task.rb (FIXED to match frontend form values)
-
 class Task < ApplicationRecord
 # --- 1. Status Definition ---
 # CORRECTED: Keys now match the values sent by TaskForm.js
