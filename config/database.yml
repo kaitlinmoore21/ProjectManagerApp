@@ -2,35 +2,16 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
-  username: postgres
-  password: mypassword
-  host: localhost
 
 development:
-  primary:
-    <<: *default
-    database: project_manager_backend_development
-
-  queue:
-    <<: *default
-    database: project_manager_backend_development_queue
-
-  cache:
-    <<: *default
-    database: project_manager_backend_development_cache
-
-  cable:
-    <<: *default
-    database: project_manager_backend_development_cable
+  <<: *default
+  database: project_manager_backend_development
 
 test:
-  primary:
-    <<: *default
-    database: project_manager_backend_test
+  <<: *default
+  database: project_manager_backend_test
 
 production:
-  primary:
-    <<: *default
-    database: project_manager_backend_production
-    username: project_manager
-    password: <%= ENV['PROJECT_MANAGER_DATABASE_PASSWORD'] %>
+  adapter: postgresql
+  encoding: unicode
+  url: <%= ENV["DATABASE_URL"] %>
