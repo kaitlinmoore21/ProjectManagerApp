@@ -2,7 +2,8 @@
 # exit on error
 set -o errexit
 
+# Install gems
 bundle install
-bundle exec rake assets:precompile
-bundle exec rake assets:clean
+
+# Run database migrations
 bundle exec rake db:migrate
