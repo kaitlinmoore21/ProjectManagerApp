@@ -7,7 +7,7 @@ class Api::V1::ProjectsController < Api::V1::ApplicationController
     # 1. Start with all projects belonging to the currently authenticated user
     projects = current_user.projects.all.order(due_date: :asc)
 
-    # 2. --- Filtering Logic ---
+    # 2. Filtering Logic 
     if params[:status].present?
       # Looks up the integer value from the STATUSES constant in the Project model
       status_value = Project::STATUSES[params[:status].downcase.to_sym]
@@ -18,7 +18,7 @@ class Api::V1::ProjectsController < Api::V1::ApplicationController
       end
     end
 
-    # 3. --- Pagination ---
+    # 3. Pagination 
     page = params[:page].to_i > 0 ? params[:page].to_i : 1
     per_page = params[:per_page].to_i > 0 ? params[:per_page].to_i : 10
     total_count = projects.count

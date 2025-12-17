@@ -1,54 +1,36 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: 5
+  username: postgres
+  password: mypassword
+  host: localhost
 
 development:
-  <<: *default
-  database: project_manager_backend_development
-
-  # --- REQUIRED for SolidQueue/SolidCache/ActionCable in development ---
-  queue:
+  primary:
     <<: *default
     database: project_manager_backend_development
+
+  queue:
+    <<: *default
+    database: project_manager_backend_development_queue
 
   cache:
     <<: *default
-    database: project_manager_backend_development
+    database: project_manager_backend_development_cache
 
   cable:
     <<: *default
-    database: project_manager_backend_development
+    database: project_manager_backend_development_cable
 
 test:
-  <<: *default
-  database: project_manager_backend_test
-
-  # --- REQUIRED for SolidQueue/SolidCache/ActionCable in test ---
-  queue:
-    <<: *default
-    database: project_manager_backend_test
-
-  cache:
-    <<: *default
-    database: project_manager_backend_test
-
-  cable:
+  primary:
     <<: *default
     database: project_manager_backend_test
 
 production:
-  # The production config is correct for Render deployment
-  url: <%= ENV['DATABASE_URL'] %>
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-  cable:
-    url: <%= ENV['DATABASE_URL'] %>
-
-  queue:
-    url: <%= ENV['QUEUE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
-
-  cache:
-    url: <%= ENV['CACHE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+  primary:
+    <<: *default
+    database: project_manager_backend_production
+    username: project_manager
+    password: <%= ENV['PROJECT_MANAGER_DATABASE_PASSWORD'] %>
