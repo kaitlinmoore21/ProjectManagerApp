@@ -12,14 +12,17 @@ test:
   database: project_manager_backend_test
 
 production:
-  # Render provides the full database connection string via the DATABASE_URL environment variable.
-  url: <%= ENV['DATABASE_URL'] %> 
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  <<: *default
+  # Render provides DATABASE_URL automatically
+  url: <%= ENV['DATABASE_URL'] %>
 
-# REQUIRED FIX FOR SolidCable/Action Cable IN PRODUCTION
-# It uses a top-level connection named 'cable' by default.
+# SolidQueue uses a 'queue' connection by default
+queue:
+  <<: *default
+  # Reuse the production database
+  url: <%= ENV['DATABASE_URL'] %>
+
+# Action Cable / SolidCable
 cable:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
