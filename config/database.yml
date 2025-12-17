@@ -6,16 +6,16 @@ default: &default
 development:
   <<: *default
   database: project_manager_backend_development
-  
+
   # --- REQUIRED for SolidQueue/SolidCache/ActionCable in development ---
   queue:
     <<: *default
     database: project_manager_backend_development
-    
+
   cache:
     <<: *default
     database: project_manager_backend_development
-    
+
   cable:
     <<: *default
     database: project_manager_backend_development
@@ -23,16 +23,16 @@ development:
 test:
   <<: *default
   database: project_manager_backend_test
-  
+
   # --- REQUIRED for SolidQueue/SolidCache/ActionCable in test ---
   queue:
     <<: *default
     database: project_manager_backend_test
-    
+
   cache:
     <<: *default
     database: project_manager_backend_test
-    
+
   cable:
     <<: *default
     database: project_manager_backend_test
@@ -43,7 +43,7 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  
+
   cable:
     url: <%= ENV['DATABASE_URL'] %>
 
