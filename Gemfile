@@ -17,9 +17,6 @@ gem "devise"
 
 
 # Rails 8 Defaults
-gem "solid_cache"
-gem "solid_queue"
-gem "solid_cable"
 gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
