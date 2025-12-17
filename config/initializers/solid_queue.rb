@@ -1,0 +1,1 @@
+SolidQueue::Record.connects_to database: { writing: :production }
