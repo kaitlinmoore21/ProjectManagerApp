@@ -30,5 +30,7 @@ module ProjectManagerBackend
     config.api_only = true
     config.autoload_paths << Rails.root.join('lib')
 
+
+
   end
 end

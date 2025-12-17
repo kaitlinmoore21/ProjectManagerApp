@@ -12,17 +12,31 @@ test:
   database: project_manager_backend_test
 
 production:
-  <<: *default
-  # Render provides DATABASE_URL automatically
+  # This is the main application database connection
   url: <%= ENV['DATABASE_URL'] %>
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-# SolidQueue uses a 'queue' connection by default
-queue:
-  <<: *default
-  # Reuse the production database
-  url: <%= ENV['DATABASE_URL'] %>
+  # --- Connection for Action Cable / SolidQueue / SolidCache ---
+  # These lines explicitly tell production what to use for each pool.
+  # The values here reference other sections defined below.
 
-# Action Cable / SolidCable
-cable:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  # Cable/ActionCable database connection
+  # This uses the same URL as the main application connection
+  cable:
+    url: <%= ENV['DATABASE_URL'] %>
+
+  # Queue/SolidQueue database connection
+  # This uses QUEUE_DATABASE_URL if set, otherwise it falls back to the main DATABASE_URL
+  queue:
+    url: <%= ENV['QUEUE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+
+  # Cache/SolidCache database connection
+  # This is the missing piece from the first deployment log.
+  cache:
+    url: <%= ENV['CACHE_DATABASE_URL'] || ENV['DATABASE_URL'] %>
+
+# The separate 'cable' and 'queue' sections from your original file are now **redundant**
+# because they are defined inside the `production` block. If you are using Rails 8,
+# they should be defined like this, nested under `production`.
